@@ -1,0 +1,14 @@
+import = ["~/Repos/dotfiles/alacritty/catppuccin-mocha.toml"]
+
+[font]
+size = 14
+
+# [font.normal]
+# family = "UbuntuMono Nerd Font"
+
+# [window]
+# decorations = "none"
+
+# [window.padding]
+# x = 7
+# y = 0

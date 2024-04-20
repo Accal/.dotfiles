@@ -1,1 +1,2 @@
-require("ammar")
+require("ammar.core")
+require("ammar.lazy")

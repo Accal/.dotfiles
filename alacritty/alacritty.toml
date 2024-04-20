@@ -1,13 +1,13 @@
 import = ["~/Repos/dotfiles/alacritty/catppuccin-macchiato.toml"]
 
 [font]
-size = 14
+size = 18
 
 [shell]
 program = "/usr/bin/fish"
 
-# [font.normal]
-# family = "UbuntuMono Nerd Font"
+[font.normal]
+family = "UbuntuMono Nerd Font"
 
 # [window]
 # decorations = "none"

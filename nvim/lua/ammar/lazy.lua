@@ -17,6 +17,7 @@ require("lazy").setup({
     { 
         "catppuccin/nvim", 
         name = "catppuccin", 
+        lazy = false,
         priority = 1000, 
         config = function()
             vim.cmd([[colorscheme catppuccin-macchiato]])
@@ -30,14 +31,16 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter", 
-        build = ":TSUpdate"
+        build = ":TsUpdate",
+        lazy = false
     },
     {
         'VonHeikemen/lsp-zero.nvim', 
-        branch = 'v3.x'
+        branch = 'v3.x',
+        lazy = false
     },
     {'williamboman/mason.nvim'},
-	{'williamboman/mason-lspconfig.nvim'},
+    {'williamboman/mason-lspconfig.nvim'},
     {'neovim/nvim-lspconfig'},
     {'hrsh7th/cmp-nvim-lsp'},
     {'hrsh7th/nvim-cmp'},
@@ -52,4 +55,22 @@ require("lazy").setup({
     {'tpope/vim-commentary'},
     {'tpope/vim-vinegar'},
     {'tpope/vim-surround'},
+    {
+        "christoomey/vim-tmux-navigator",
+        lazy = false,
+        cmd = {
+            "TmuxNavigateLeft",
+            "TmuxNavigateDown",
+            "TmuxNavigateUp",
+            "TmuxNavigateRight",
+            "TmuxNavigatePrevious",
+        },
+        keys = {
+            { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+            { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+            { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+            { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+            { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+        },
+    }
 })

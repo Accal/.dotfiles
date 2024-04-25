@@ -1,17 +1,12 @@
 import = ["~/Repos/dotfiles/alacritty/catppuccin-macchiato.toml"]
 
 [font]
-size = 18
+size = 22 
 
 [shell]
-program = "/usr/bin/fish"
+program = "/usr/local/bin/zsh"
+args = [ "--login" ]
+
 
 [font.normal]
 family = "UbuntuMono Nerd Font"
-
-# [window]
-# decorations = "none"
-
-# [window.padding]
-# x = 7
-# y = 0

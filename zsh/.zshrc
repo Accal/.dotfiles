@@ -114,14 +114,3 @@ source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 if [[ -f "~/.aws/bashrc" ]]; then
     export $(cat ~/.aws/bashrc | xargs)
 fi
-
-awslogin () {
-    PS3="Selection: "
-    select character in HU_DEV_GEORGE HU_FAT2_GEORGE HU_PRF2_GEORGE HU_PRF_GEORGE HU_PROD_GEORGE RO_FAT_GEORGE RO_UAT_GEORGE RO_PROD_GEORGE AT_FAT_GEORGE AT_UAT_GEORGE AT_PROD_GEORGE AT_FAT_GB AT_FAT2_GB AT_PROD_GB RO_FAT_GB RO_PROD_GB CZ_FAT_GB EG_DEV_KYC 
-  do
-    echo "Log in to $character"
-        export AWS_PROFILE=$character
-        . ~/Documents/repos/erste/loginAws.sh $character
-        break
-    done
-}

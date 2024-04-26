@@ -1,3 +1,8 @@
-.git
-.gitignore
-bin
+^\.git$
+^\.gitignore$
+^\.stow-local-ignore$
+^README\.md$
+^CLAUDE\.md$
+^Brewfile$
+^setup\.sh$
+^fonts$

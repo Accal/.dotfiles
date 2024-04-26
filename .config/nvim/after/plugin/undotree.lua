@@ -1,1 +1,1 @@
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+-- Migrated to lua/ammar/plugins/. This file is intentionally empty.

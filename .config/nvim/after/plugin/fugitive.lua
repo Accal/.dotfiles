@@ -1,1 +1,1 @@
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
+-- Migrated to lua/ammar/plugins/. This file is intentionally empty.

@@ -1,1 +1,1 @@
-require("mason").setup()
+-- Migrated to lua/ammar/plugins/. This file is intentionally empty.

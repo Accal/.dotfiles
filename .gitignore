@@ -1,2 +1,15 @@
-lazy-lock.json
+# macOS
 .DS_Store
+
+# Credentials — never commit
+.config/rclone/
+
+# Runtime data dirs (not config)
+.local/pipx/
+.local/share/
+.local/state/
+
+# Editor
+*.swp
+*.swo
+.idea/

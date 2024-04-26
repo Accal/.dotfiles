@@ -1,17 +1,21 @@
-import = ["~/.dotfiles/alacritty/catppuccin-macchiato.toml"]
-
 [env]
 term = "xterm-256color"
 
 [font]
 size = 22 
 
-[shell]
-program = "/usr/local/bin/zsh"
-args = [ "--login" ]
-
 [font.normal]
 family = "UbuntuMono Nerd Font"
 
 [window]
 option_as_alt = "Both"
+
+[general]
+import = ["~/.config/alacritty/themes/catppuccin-macchiato.toml"]
+
+[terminal]
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

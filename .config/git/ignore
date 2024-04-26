@@ -1,0 +1,43 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+.directory
+*~
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets and local overrides
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Build artifacts
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+dist/
+build/
+target/
+.next/
+.nuxt/
+out/
+
+# Python
+.venv/
+venv/
+*.egg-info/
+
+# Claude Code (per-project, not shared)
+**/.claude/settings.local.json

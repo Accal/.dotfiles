@@ -1,42 +1,54 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- File explorer
+vim.keymap.set("n", "-", vim.cmd.Ex, { desc = "Open explorer (current dir)" })
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "File explorer" })
 
-vim.keymap.set("n", "J", "mzJ`z")
+-- Move selected lines up/down in visual mode
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
+
+-- Join lines without moving cursor
+vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines" })
+
+-- Scroll and keep cursor centered
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Search: keep match centered, show context
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- Clipboard: yank to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]],  { desc = "Yank to clipboard" })
+vim.keymap.set("n",          "<leader>Y", [["+Y]],   { desc = "Yank line to clipboard" })
 
--- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+-- Delete without clobbering clipboard
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to void" })
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+-- Paste over selection without clobbering clipboard
+vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without yanking" })
 
--- This is going to get me cancelled
+-- Disable Ex mode
+vim.keymap.set("n", "Q", "<nop>")
+
+-- Ctrl-C as Esc in insert mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
-vim.keymap.set("n", "Q", "<nop>")
+-- Open tmux sessionizer in a new window
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+-- Quickfix navigation
+vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next quickfix" })
+vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz", { desc = "Prev quickfix" })
+vim.keymap.set("n", "]l", "<cmd>lnext<CR>zz", { desc = "Next loclist" })
+vim.keymap.set("n", "[l", "<cmd>lprev<CR>zz", { desc = "Prev loclist" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+-- Rename word under cursor (interactive substitution)
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename word" })
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+-- Make current file executable
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "chmod +x" })
 
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
+-- Source current file (useful when editing config)
+vim.keymap.set("n", "<leader><leader>", "<cmd>so<CR>", { desc = "Source file" })

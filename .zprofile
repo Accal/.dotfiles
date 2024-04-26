@@ -1,33 +1,23 @@
-export XDG_CONFIG_HOME=$HOME/.config
-VIM="nvim"
+# ─── XDG ──────────────────────────────────────────────────────────────────────
+export XDG_CONFIG_HOME="$HOME/.config"
 
-PERSONAL=$XDG_CONFIG_HOME/personal
-WORK=$XDG_CONFIG_HOME/work
+# ─── Homebrew (cross-platform: macOS ARM64, macOS Intel, Linux) ───────────────
+if   [[ -x /opt/homebrew/bin/brew ]];              then eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]];                 then eval "$(/usr/local/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
-for i in `find -L $PERSONAL`; do
-    source $i
-done
-
-for i in `find -L $WORK`; do
-    source $i
-done
-
-export GIT_EDITOR=$VIM
-
-# Custom Aliases
-alias vim="nvim"
-alias gimme="brew install"
-alias k="kubectl"
-alias h="helm"
-
-VIM="nvim"
-
-bindkey -s ^f "tmux-sessionizer\n"
-
-PATH="$HOME/Library/Python/3.8/bin:$PATH"
+# ─── PATH ─────────────────────────────────────────────────────────────────────
 PATH="$HOME/.local/bin:$PATH"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(fzf --zsh)"
+# AWS Session Manager Plugin (Linux path — skip on macOS where it installs elsewhere)
+[[ "$(uname)" == "Linux" ]] && PATH="/usr/local/sessionmanagerplugin/bin:$PATH"
 
 export PATH
+
+# ─── Environment ──────────────────────────────────────────────────────────────
+export GIT_EDITOR=nvim
+export SOPS_AGE_KEY_FILE="$HOME/keys.txt"
+
+# ─── mise shims (for non-interactive contexts: scripts, cron, etc.) ───────────
+command -v mise &>/dev/null && eval "$(mise activate zsh --shims)"

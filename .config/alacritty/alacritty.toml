@@ -1,4 +1,4 @@
-import = ["~/Repos/.dotfiles/alacritty/catppuccin-macchiato.toml"]
+import = ["~/.dotfiles/alacritty/catppuccin-macchiato.toml"]
 
 [env]
 term = "xterm-256color"

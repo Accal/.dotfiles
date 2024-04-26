@@ -16,9 +16,6 @@ export GIT_EDITOR=$VIM
 
 # Custom Aliases
 alias vim="nvim"
-alias gimme="brew install"
-alias k="kubectl"
-alias h="helm"
 
 VIM="nvim"
 
@@ -27,9 +24,6 @@ bindkey -s ^f "tmux-sessionizer\n"
 PATH="$HOME/Library/Python/3.8/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 
-FPATH="$FPATH:$HOME/.zsh/pure"
-
 eval "$(fzf --zsh)"
 
 export PATH
-export FPATH

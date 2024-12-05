@@ -31,8 +31,7 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter", 
-        build = ":TsUpdate",
-        lazy = false
+        build = ":TsUpdate"
     },
     {
         'VonHeikemen/lsp-zero.nvim', 

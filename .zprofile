@@ -1,8 +1,8 @@
 export XDG_CONFIG_HOME=$HOME/.config
 VIM="nvim"
 
-PERSONAL=$XDG_CONFIG_HOME/personal
-WORK=$XDG_CONFIG_HOME/work
+PERSONAL=$HOME/personal
+WORK=$HOME/work
 
 for i in `find -L $PERSONAL`; do
     source $i
@@ -24,7 +24,6 @@ VIM="nvim"
 
 bindkey -s ^f "tmux-sessionizer\n"
 
-PATH="$HOME/Library/Python/3.8/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"

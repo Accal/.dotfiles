@@ -21,14 +21,5 @@ brew "curl"
 brew "wget"
 brew "jq"
 
-# Kubernetes / cloud
-brew "kubectl"
-brew "helm"
-brew "awscli"
-
-# Database client
-brew "postgresql@16", link: true
-
 # GUI apps
 cask "alacritty"
-cask "firefox"

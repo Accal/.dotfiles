@@ -39,11 +39,11 @@ install_packages() {
         echo "Installing packages for Linux..."
         if command_exists apt-get; then
             sudo apt-get update -qq
-            sudo apt-get install -y curl git zsh stow neovim tmux fzf ripgrep jq wget
+            sudo apt-get install -y curl git zsh stow neovim tmux fzf ripgrep jq wget alacritty
         elif command_exists dnf; then
-            sudo dnf install -y curl git zsh stow neovim tmux fzf ripgrep jq wget
+            sudo dnf install -y curl git zsh stow neovim tmux fzf ripgrep jq wget alacritty
         elif command_exists pacman; then
-            sudo pacman -Sy --noconfirm curl git zsh stow neovim tmux fzf ripgrep jq wget
+            sudo pacman -Sy --noconfirm curl git zsh stow neovim tmux fzf ripgrep jq wget alacritty
         else
             echo "No supported package manager found (apt-get, dnf, pacman). Install packages manually." >&2
             exit 1

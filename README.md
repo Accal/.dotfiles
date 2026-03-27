@@ -390,7 +390,8 @@ mise self-update
 
 | What | How |
 |------|-----|
-| New brew package | Add to `Brewfile`, run `brew bundle` |
+| New brew package (macOS) | Add to `Brewfile`, run `brew bundle` |
+| New package (Linux) | Add to all three distro lists in `setup.sh`'s `install_packages()` |
 | New language version | `mise install <lang>@<version>` and add to `.tool-versions` |
 | New Neovim plugin | Create `~/.dotfiles/.config/nvim/lua/ammar/plugins/<name>.lua` |
 | New LSP server | `:Mason` to install, add to `ensure_installed` in `lsp.lua` |

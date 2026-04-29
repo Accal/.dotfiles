@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "source": "vercel-labs/agent-skills@main",
+      "skills": [
+        "find-skills"
+      ],
+      "agents": [
+        "claude-code",
+        "codex"
+      ],
+      "enabled": false
+    }
+  ]
+}

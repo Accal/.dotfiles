@@ -35,3 +35,12 @@ graphify-out/**
 .claude/stats-cache.json
 .claude/tasks/**
 .claude/telemetry/**
+
+# Codex runtime state. Shared assets are synchronized from private_dot_ai.
+.codex/cache/**
+.codex/history.jsonl
+.codex/log/**
+.codex/sessions/**
+.codex/tasks/**
+.codex/tmp/**
+.codex/traces/**

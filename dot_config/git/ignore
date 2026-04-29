@@ -41,3 +41,4 @@ venv/
 
 # Claude Code (per-project, not shared)
 **/.claude/settings.local.json
+**/.codex/settings.local.json

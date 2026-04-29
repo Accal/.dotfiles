@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+key_file="$HOME/.config/chezmoi/key.txt"
+encrypted_key="{{ .chezmoi.sourceDir }}/key.txt.age"
+
+if [[ -f "$key_file" ]]; then
+    exit 0
+fi
+
+if [[ ! -f "$encrypted_key" ]]; then
+    echo "Missing $encrypted_key; create it before applying encrypted files." >&2
+    exit 1
+fi
+
+mkdir -p "$HOME/.config/chezmoi"
+chezmoi age decrypt --passphrase "$encrypted_key" > "$key_file"
+chmod 600 "$key_file"

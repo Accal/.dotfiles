@@ -1,0 +1,64 @@
+{
+  "version": 2,
+  "plugins": {
+    "swift-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/swift-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-03-25T08:12:20.959Z",
+        "lastUpdated": "2026-03-25T08:12:20.959Z",
+        "gitCommitSha": "79caa0d824acb760fd9c023acb39c6c7da5ee7fc"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/ammarrahic/personal/homelab",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/superpowers/5.0.7",
+        "version": "5.0.7",
+        "installedAt": "2026-04-21T12:16:28.166Z",
+        "lastUpdated": "2026-04-25T17:58:41.777Z",
+        "gitCommitSha": "b55764852ac78870e65c6565fb585b6cd8b3c5c9"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/ammarrahic/personal/homelab",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/context7/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-25T17:58:41.777Z",
+        "lastUpdated": "2026-04-25T17:58:41.777Z"
+      }
+    ],
+    "claude-md-management@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/ammarrahic/personal/homelab",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/claude-md-management/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-25T17:58:41.777Z",
+        "lastUpdated": "2026-04-25T17:58:41.777Z"
+      }
+    ],
+    "ruby-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/ruby-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-27T12:54:33.718Z",
+        "lastUpdated": "2026-04-27T12:54:33.718Z"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/ammarrahic/.claude-work/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-27T13:29:37.322Z",
+        "lastUpdated": "2026-04-27T21:04:07.134Z"
+      }
+    ]
+  }
+}

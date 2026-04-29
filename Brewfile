@@ -2,7 +2,6 @@ tap "homebrew/bundle"
 
 # Shell
 brew "zsh"
-brew "stow"
 
 # Editor & terminal multiplexer
 brew "neovim"
@@ -15,6 +14,10 @@ brew "ripgrep"
 # Version manager (replaces asdf)
 brew "mise"
 
+# Dotfiles and secrets
+brew "chezmoi"
+brew "age"
+
 # Core utilities
 brew "git"
 brew "curl"
@@ -23,3 +26,4 @@ brew "jq"
 
 # GUI apps
 cask "alacritty"
+cask "font-ubuntu-mono-nerd-font"

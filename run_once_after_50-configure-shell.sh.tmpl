@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{- if .changeDefaultShell }}
+zsh_path="$(command -v zsh)"
+
+if [[ "${SHELL:-}" == "$zsh_path" ]]; then
+    exit 0
+fi
+
+echo "Setting default shell to $zsh_path..."
+if ! grep -qF "$zsh_path" /etc/shells; then
+    echo "$zsh_path" | sudo tee -a /etc/shells >/dev/null
+fi
+
+if [[ "{{ .chezmoi.os }}" == "darwin" ]]; then
+    sudo dscl . -create "/Users/{{ .chezmoi.username }}" UserShell "$zsh_path"
+else
+    chsh -s "$zsh_path"
+fi
+{{- else }}
+echo "Skipping default shell change; set changeDefaultShell = true in chezmoi data to enable."
+{{- end }}

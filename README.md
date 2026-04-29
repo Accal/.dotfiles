@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal development environment for macOS (ARM64 + Intel) and Linux, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal development environment for macOS (ARM64 + Intel) and Linux, managed with [chezmoi](https://www.chezmoi.io/).
 
 **Theme**: Catppuccin Macchiato across all tools · **Editor**: Neovim · **Shell**: Zsh + Oh My Zsh + Powerlevel10k · **Terminal**: Alacritty · **Multiplexer**: Tmux
 
@@ -9,28 +9,25 @@ Personal development environment for macOS (ARM64 + Intel) and Linux, managed wi
 ## Installation
 
 ```sh
-git clone https://github.com/ammarrahic/.dotfiles ~/.dotfiles
-cd ~/.dotfiles
-./setup.sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply Accal/.dotfiles
 ```
 
-`setup.sh` is fully idempotent — safe to re-run at any time. After it completes, start a new shell session.
+After `chezmoi apply` completes, start a new shell session.
 
-**What `setup.sh` does:**
+**What `chezmoi apply` does:**
 1. Installs Homebrew (macOS) or uses apt/dnf/pacman (Linux)
-2. Installs all packages from `Brewfile` (macOS) or a core set (Linux)
+2. Installs packages from `Brewfile` (macOS) or `LinuxPackages` (Linux)
 3. Installs mise (version manager)
-4. Sets the default shell to the Homebrew/system zsh
-5. Installs Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, Powerlevel10k
-6. Copies UbuntuMono Nerd Fonts to the system font directory
-7. Applies symlinks via `stow --adopt` + `git checkout` (handles pre-existing files)
+4. Installs Oh My Zsh, zsh-autosuggestions, zsh-syntax-highlighting, Powerlevel10k
+5. Applies managed config files to `$HOME`
+6. Decrypts selected secrets using the local Chezmoi age key
 
-**Re-apply symlinks only** (after pulling changes):
+**Re-apply after pulling changes:**
 ```sh
-cd ~/.dotfiles && stow --adopt . && git checkout -- .
+chezmoi update
 ```
 
-**Add a package** (macOS): add it to `Brewfile`, then `brew bundle`.
+**Add a package**: add it to `Brewfile` for macOS or `LinuxPackages` for Linux, then run `chezmoi apply`.
 
 ---
 
@@ -38,10 +35,11 @@ cd ~/.dotfiles && stow --adopt . && git checkout -- .
 
 ```
 Brewfile                         macOS package list (brew bundle)
-setup.sh                         bootstrap script
-.zprofile                        login shell: brew init, PATH, env vars, mise shims
-.zshrc                           interactive shell: OMZ, aliases, mise, fzf, keybindings
-.config/
+LinuxPackages                    Linux package manifest
+.chezmoi.toml.tmpl               Chezmoi config template
+dot_zprofile                     login shell: brew init, PATH, env vars, mise shims
+dot_zshrc                        interactive shell: OMZ, aliases, mise, fzf, keybindings
+dot_config/
   nvim/                          Neovim config  ← see .config/nvim/CLAUDE.md
     lua/ammar/
       core/set.lua               vim.opt settings
@@ -50,18 +48,17 @@ setup.sh                         bootstrap script
     CHEATSHEET.md                full keybinding reference
   tmux/
     tmux.conf                    tmux config (prefix: Ctrl+A)
-    plugins/tpm/                 TPM checked in; other plugins installed by TPM
-    .tmux-cht-languages          language list for cheat.sh lookup
-    .tmux-cht-command            command list for cheat.sh lookup
+    dot_tmux-cht-languages       language list for cheat.sh lookup
+    dot_tmux-cht-command         command list for cheat.sh lookup
   alacritty/
     alacritty.toml               terminal config (font, theme, keybindings)
     themes/catppuccin-macchiato.toml
   git/
     ignore                       global gitignore
-.local/bin/
-  tmux-sessionizer               fzf-based tmux session switcher
-  tmux-cht.sh                    cht.sh lookup via fzf
-fonts/                           UbuntuMono Nerd Font .ttf files (copied, not symlinked)
+dot_local/bin/
+  executable_tmux-sessionizer    fzf-based tmux session switcher
+  executable_tmux-cht.sh         cht.sh lookup via fzf
+private_dot_claude/              managed Claude config and skills
 ```
 
 ---
@@ -73,7 +70,7 @@ fonts/                           UbuntuMono Nerd Font .ttf files (copied, not sy
 - **`.zprofile` vs `.zshrc`**: Login-only config (brew init, PATH, env vars) lives in `.zprofile`. Everything interactive (aliases, keybindings, completions, prompt) lives in `.zshrc`. This prevents double-sourcing and keeps non-interactive shells fast.
 - **Cross-platform Homebrew**: `.zprofile` detects the brew prefix automatically (`/opt/homebrew` on Apple Silicon, `/usr/local` on Intel, `/home/linuxbrew/.linuxbrew` on Linux). Use `$HOMEBREW_PREFIX` in scripts — never hardcode the path.
 - **mise (version manager)**: Replaces asdf. Login shells get `mise activate zsh --shims` (makes shims available in scripts/cron). Interactive shells get `mise activate zsh` (full hook with completions and PATH). Tool versions are declared in `.tool-versions` files per project.
-- **Claude profiles**: Two separate Claude CLI configs (`~/.claude-personal`, `~/.claude-work`) are accessed via aliases. The bare `claude` command is intentionally blocked.
+- **Claude**: One default Claude CLI profile lives at `~/.claude`; legacy `.claude-personal` and `.claude-work` profiles are not part of the final setup.
 
 ### Aliases
 
@@ -83,9 +80,6 @@ fonts/                           UbuntuMono Nerd Font .ttf files (copied, not sy
 | `gimme` | `brew install` |
 | `k` | `kubectl` |
 | `h` | `helm` |
-| `claude-personal` | `CLAUDE_CONFIG_DIR=~/.claude-personal claude` |
-| `claude-work` | `CLAUDE_CONFIG_DIR=~/.claude-work claude` |
-| `claude` | *(blocked — use the above)* |
 
 ### Keybindings
 
@@ -356,11 +350,9 @@ Inside `:Git` (Fugitive): `s` stage · `u` unstage · `cc` commit · `=` inline 
 
 ## Fonts
 
-UbuntuMono Nerd Font is stored in `fonts/` and copied (not symlinked) by `setup.sh`:
-- macOS: `~/Library/Fonts/`
-- Linux: `~/.local/share/fonts/` (followed by `fc-cache -f`)
-
-To update the font, replace the `.ttf` files in `fonts/` and re-run `setup.sh`.
+UbuntuMono Nerd Font is installed through the package manager:
+- macOS: `font-ubuntu-mono-nerd-font` cask in `Brewfile`
+- Linux: install the distro package when available; otherwise install manually
 
 ---
 
@@ -371,7 +363,7 @@ To update the font, replace the `.ttf` files in `fonts/` and re-run `setup.sh`.
 ```sh
 # Packages
 brew upgrade                        # macOS
-brew bundle --file=~/.dotfiles/Brewfile  # ensure new Brewfile entries are installed
+chezmoi apply                       # package manifests and dotfiles
 
 # Neovim plugins
 nvim -c ":Lazy update" -c "qa"
@@ -390,10 +382,10 @@ mise self-update
 
 | What | How |
 |------|-----|
-| New brew package (macOS) | Add to `Brewfile`, run `brew bundle` |
-| New package (Linux) | Add to all three distro lists in `setup.sh`'s `install_packages()` |
+| New brew package (macOS) | Add to `Brewfile`, run `chezmoi apply` |
+| New package (Linux) | Add to `LinuxPackages`, run `chezmoi apply` |
 | New language version | `mise install <lang>@<version>` and add to `.tool-versions` |
-| New Neovim plugin | Create `~/.dotfiles/.config/nvim/lua/ammar/plugins/<name>.lua` |
+| New Neovim plugin | Create `~/.local/share/chezmoi/dot_config/nvim/lua/ammar/plugins/<name>.lua` |
 | New LSP server | `:Mason` to install, add to `ensure_installed` in `lsp.lua` |
 | New formatter | `:MasonInstall <tool>`, add to `formatters_by_ft` in `formatting.lua` |
 | New shell alias | Add to `.zshrc` aliases section |
@@ -402,11 +394,11 @@ mise self-update
 
 ## Troubleshooting
 
-**Stow conflict** — if `stow .` fails with "existing target":
+**Preview Chezmoi changes**:
 ```sh
-cd ~/.dotfiles && stow --adopt . && git checkout -- .
+chezmoi diff
+chezmoi apply --dry-run --verbose
 ```
-`--adopt` moves the conflicting file into the repo; `git checkout` restores the dotfile version.
 
 **Fonts not showing in Alacritty** — ensure UbuntuMono Nerd Font is installed and restart Alacritty.
 

@@ -4,39 +4,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repo Is
 
-A dotfiles repository for macOS (ARM64 + Intel) and Linux, managed with [GNU Stow](https://www.gnu.org/software/stow/). The directory structure mirrors `$HOME` — running `stow .` from the repo root creates symlinks at the corresponding paths under `~`.
+A dotfiles repository for macOS (ARM64 + Intel) and Linux, managed with [chezmoi](https://www.chezmoi.io/). The canonical source checkout lives at `~/.local/share/chezmoi`, and `chezmoi apply` materializes real files under `$HOME`.
 
 ## Installation
 
 ```sh
-./setup.sh      # Full bootstrap: packages, Oh My Zsh + plugins, Stow symlinks
-stow .          # Re-apply symlinks only (safe to re-run; uses --adopt + git checkout)
+chezmoi diff
+chezmoi apply --dry-run --verbose
+chezmoi apply
 ```
 
-`setup.sh` is idempotent — safe to re-run. It uses `set -euo pipefail` and will exit on any error.
-
-`.stow-local-ignore` excludes `setup.sh`, `Brewfile`, `CLAUDE.md`, `README.md`, `fonts/`, and git internals from being symlinked. Fonts are copied manually to `~/Library/Fonts` (macOS) or `~/.local/share/fonts` (Linux).
+Chezmoi scripts are idempotent and use `bash` with `set -euo pipefail`. Source-root files such as `README.md`, `CLAUDE.md`, `AGENTS.md`, `Brewfile`, and `LinuxPackages` support the repository and are not applied to `$HOME`.
 
 ## Repository Layout
 
 ```
-Brewfile            ← declarative package list (macOS only, used by setup.sh)
-setup.sh            ← bootstrap script (cross-platform: macOS ARM64/Intel + Linux)
-.zprofile           ← login shell: brew init, PATH, env vars, mise shims
-.zshrc              ← interactive shell: OMZ, aliases, mise, fzf, keybindings
-.config/
-  nvim/             ← Neovim config (see .config/nvim/CLAUDE.md for details)
+Brewfile            ← declarative package list for macOS
+LinuxPackages       ← conservative Linux package manifest
+.chezmoi.toml.tmpl  ← Chezmoi config template with age encryption config
+dot_zprofile        ← login shell: brew init, PATH, env vars, mise shims
+dot_zshrc           ← interactive shell: OMZ, aliases, mise, fzf, keybindings
+dot_config/
+  nvim/             ← Neovim config (see dot_config/nvim/CLAUDE.md for details)
   tmux/
     tmux.conf       ← Tmux config (prefix: Ctrl+A, vim pane navigation)
-    plugins/tpm/    ← TPM checked in; other plugins installed by TPM on first run
-    .tmux-cht-languages  ← language list for tmux-cht.sh
-    .tmux-cht-command    ← command list for tmux-cht.sh
+    dot_tmux-cht-languages  ← language list for tmux-cht.sh
+    dot_tmux-cht-command    ← command list for tmux-cht.sh
   alacritty/        ← Alacritty terminal (Catppuccin Macchiato, UbuntuMono Nerd Font)
   git/ignore        ← Global gitignore (comprehensive)
-.local/bin/
-  tmux-sessionizer  ← fzf-based tmux session switcher (bound to Ctrl+F / prefix+f)
-  tmux-cht.sh       ← cht.sh lookup tool (bound to prefix+i)
-fonts/              ← UbuntuMono Nerd Font .ttf files (copied by setup.sh, not symlinked)
+dot_local/bin/
+  executable_tmux-sessionizer  ← fzf-based tmux session switcher (bound to Ctrl+F / prefix+f)
+  executable_tmux-cht.sh       ← cht.sh lookup tool (bound to prefix+i)
+private_dot_claude/ ← managed Claude config and skills
 ```
 
 ## Shell Configuration
@@ -51,16 +50,16 @@ fonts/              ← UbuntuMono Nerd Font .ttf files (copied by setup.sh, not
 
 - **Color scheme**: Catppuccin Macchiato across all tools (Neovim, Tmux, Alacritty).
 - **Editor**: Neovim — `vim` alias and `GIT_EDITOR` both point to `nvim`.
-- **`claude` command is aliased away** — use `claude-personal` or `claude-work` to target specific Claude CLI configs.
+- **Claude**: one default profile at `~/.claude`; legacy `.claude-personal` and `.claude-work` are migration backups only.
 - **Cross-platform paths**: Use `$HOMEBREW_PREFIX` (set by `.zprofile`) rather than hardcoding `/opt/homebrew`.
 - **`.config/git/ignore`** is the global gitignore — covers common build artifacts, secrets, and editor files.
 
 ## Package Management
 
-macOS: `brew bundle --file=Brewfile` (called by `setup.sh`). To add a package, add it to `Brewfile`.
+macOS: `brew bundle --file=Brewfile` is run by Chezmoi. To add a package, add it to `Brewfile`.
 
-Linux: `setup.sh` detects apt-get / dnf / pacman and installs a core set. `mise` is installed via `curl https://mise.run | sh`.
+Linux: Chezmoi scripts detect apt-get / dnf / pacman and install packages listed in `LinuxPackages`. `mise` falls back to `curl https://mise.run | sh` if the package manager does not provide it.
 
 ## Neovim
 
-Full architecture and conventions are documented in `.config/nvim/CLAUDE.md`. Keybinding reference is in `.config/nvim/CHEATSHEET.md`.
+Full architecture and conventions are documented in `dot_config/nvim/CLAUDE.md`. Keybinding reference is in `dot_config/nvim/CHEATSHEET.md`.

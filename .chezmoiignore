@@ -1,0 +1,37 @@
+key.txt.age
+README.md
+CLAUDE.md
+AGENTS.md
+Brewfile
+LinuxPackages
+.gitignore
+setup.sh
+
+# Runtime and generated state that should never be managed.
+.local/pipx/**
+.local/share/**
+.local/state/**
+.config/tmux/plugins/**
+.config/crossnote/**
+.config/jellyfin-desktop/**
+graphify-out/**
+
+# Claude runtime state. Only the allowlisted files under private_dot_claude are managed.
+.claude/backups/**
+.claude/cache/**
+.claude/debug/**
+.claude/file-history/**
+.claude/history.jsonl
+.claude/image-cache/**
+.claude/ide/**
+.claude/mcp-needs-auth-cache.json
+.claude/paste-cache/**
+.claude/plans/**
+.claude/policy-limits.json
+.claude/projects/**
+.claude/session-env/**
+.claude/sessions/**
+.claude/shell-snapshots/**
+.claude/stats-cache.json
+.claude/tasks/**
+.claude/telemetry/**

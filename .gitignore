@@ -9,6 +9,16 @@
 .local/share/
 .local/state/
 
+# Chezmoi/source-local generated state
+.chezmoistate.boltdb
+key.txt
+
+# Accidental app/runtime state
+.config/crossnote/
+.config/jellyfin-desktop/
+.config/tmux/plugins/
+graphify-out/
+
 # Editor
 *.swp
 *.swo

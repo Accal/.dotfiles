@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+OS="{{ .chezmoi.os }}"
+SOURCE_DIR="{{ .chezmoi.sourceDir }}"
+
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+if [[ "$OS" == "darwin" ]]; then
+    if command_exists brew; then
+        exit 0
+    fi
+
+    echo "Installing Homebrew..."
+    NONINTERACTIVE=1 /bin/bash -c \
+        "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    exit 0
+fi
+
+if [[ "$OS" != "linux" ]]; then
+    exit 0
+fi
+
+mapfile -t packages < "$SOURCE_DIR/LinuxPackages"
+
+install_with_apt() {
+    local pkg available=()
+    sudo apt-get update -qq
+    for pkg in "${packages[@]}"; do
+        if apt-cache show "$pkg" >/dev/null 2>&1; then
+            available+=("$pkg")
+        else
+            echo "Skipping unavailable apt package: $pkg" >&2
+        fi
+    done
+    if ((${#available[@]})); then
+        sudo apt-get install -y "${available[@]}"
+    fi
+}
+
+install_with_dnf() {
+    local pkg available=()
+    for pkg in "${packages[@]}"; do
+        if dnf info "$pkg" >/dev/null 2>&1; then
+            available+=("$pkg")
+        else
+            echo "Skipping unavailable dnf package: $pkg" >&2
+        fi
+    done
+    if ((${#available[@]})); then
+        sudo dnf install -y "${available[@]}"
+    fi
+}
+
+install_with_pacman() {
+    local pkg available=()
+    for pkg in "${packages[@]}"; do
+        if pacman -Si "$pkg" >/dev/null 2>&1; then
+            available+=("$pkg")
+        else
+            echo "Skipping unavailable pacman package: $pkg" >&2
+        fi
+    done
+    if ((${#available[@]})); then
+        sudo pacman -Sy --noconfirm "${available[@]}"
+    fi
+}
+
+if command_exists apt-get; then
+    install_with_apt
+elif command_exists dnf; then
+    install_with_dnf
+elif command_exists pacman; then
+    install_with_pacman
+else
+    echo "No supported package manager found. Install packages from $SOURCE_DIR/LinuxPackages manually." >&2
+    exit 1
+fi
+
+if ! command_exists mise; then
+    echo "Installing mise with official installer..."
+    curl https://mise.run | sh
+fi

@@ -16,4 +16,4 @@ else
     exit 1
 fi
 
-brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
+brew bundle --force --file="{{ .chezmoi.sourceDir }}/Brewfile"

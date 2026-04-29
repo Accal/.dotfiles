@@ -402,7 +402,7 @@ chezmoi apply --dry-run --verbose
 
 **Fonts not showing in Alacritty** — ensure UbuntuMono Nerd Font is installed and restart Alacritty.
 
-**TPM plugins not loaded** — open a tmux session and press `prefix + I` to install.
+**TPM plugins not loaded** — if TPM is missing, run `git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm`, then open a tmux session and press `prefix + I` to install plugins.
 
 **mise shims not found in scripts** — ensure `.zprofile` is sourced (login shell). Check with `mise doctor`.
 

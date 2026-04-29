@@ -59,20 +59,28 @@ return {
             })
 
             -- Hover border
-            vim.lsp.handlers["textDocument/hover"] =
-                vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+            vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+                config = config or {}
+                config.border = config.border or "rounded"
+                return vim.lsp.handlers.hover(err, result, ctx, config)
+            end
 
             local capabilities = require("blink.cmp").get_lsp_capabilities()
+            local ensure_installed = {
+                "lua_ls",
+                "pyright",
+                "ruby_lsp",
+                "terraformls",
+                "cssls",
+            }
+
+            -- gopls requires the Go toolchain on PATH for Mason install.
+            if vim.fn.executable("go") == 1 then
+                table.insert(ensure_installed, "gopls")
+            end
 
             require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "lua_ls",
-                    "pyright",
-                    "gopls",
-                    "ruby_lsp",
-                    "terraformls",
-                    "cssls",
-                },
+                ensure_installed = ensure_installed,
                 handlers = {
                     -- Default: set up each installed server with blink capabilities
                     function(server)

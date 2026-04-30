@@ -72,7 +72,7 @@ private_dot_claude/              Claude-specific config and encrypted secrets
 - **Cross-platform Homebrew**: `.zprofile` detects the brew prefix automatically (`/opt/homebrew` on Apple Silicon, `/usr/local` on Intel, `/home/linuxbrew/.linuxbrew` on Linux). Use `$HOMEBREW_PREFIX` in scripts — never hardcode the path.
 - **mise (version manager)**: Replaces asdf. Login shells get `mise activate zsh --shims` (makes shims available in scripts/cron). Interactive shells get `mise activate zsh` (full hook with completions and PATH). Tool versions are declared in `.tool-versions` files per project.
 - **Shared AI assets**: `private_dot_ai/` is the canonical source (`~/.ai`) for cross-agent skills/prompts/MCP templates, synchronized into `~/.claude` and `~/.codex` on `chezmoi apply`.
-- **Claude**: One default Claude CLI profile lives at `~/.claude`; legacy `.claude-personal` and `.claude-work` profiles are not part of the final setup.
+- **Claude**: One default Claude CLI profile lives at `~/.claude`.
 
 ### Aliases
 

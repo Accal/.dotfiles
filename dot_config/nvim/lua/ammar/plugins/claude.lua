@@ -33,35 +33,9 @@ return {
 		},
 		config = function(_, opts)
 			require("claudecode").setup(opts)
-
-			local profiles = {
-				{ label = "Work",     dir = "~/.claude-work" },
-				{ label = "Personal", dir = "~/.claude-personal" },
-			}
-
-			local function switch_profile(dir)
-				vim.fn.setenv("CLAUDE_CONFIG_DIR", vim.fn.expand(dir))
-				vim.cmd("ClaudeCodeStop")
-				vim.cmd("ClaudeCode")
-			end
-
-			local function pick_profile()
-				vim.ui.select(profiles, {
-					prompt = "Claude profile:",
-					format_item = function(p) return p.label end,
-				}, function(choice)
-					if choice then switch_profile(choice.dir) end
-				end)
-			end
-
-			vim.api.nvim_create_user_command("ClaudeWork",     function() switch_profile("~/.claude-work")     end, { desc = "Claude: work profile" })
-			vim.api.nvim_create_user_command("ClaudePersonal", function() switch_profile("~/.claude-personal") end, { desc = "Claude: personal profile" })
-			vim.api.nvim_create_user_command("ClaudePick",     pick_profile,                                       { desc = "Claude: pick profile" })
 		end,
 		keys = {
-			{ "<leader>cc", "<cmd>ClaudePick<cr>",      desc = "Claude: pick profile" },
-			{ "<leader>cw", "<cmd>ClaudeWork<cr>",      desc = "Claude: work profile" },
-			{ "<leader>cp", "<cmd>ClaudePersonal<cr>",  desc = "Claude: personal profile" },
+			{ "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Claude Code" },
 		},
 	},
 }

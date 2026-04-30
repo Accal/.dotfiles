@@ -52,7 +52,8 @@ while IFS= read -r entry; do
     done
 
     echo "Installing external skills from $source_name"
-    "${cmd[@]}"
+    # Keep the jq stream intact: some CLIs read stdin opportunistically.
+    "${cmd[@]}" </dev/null
 
     printf '%s\t%s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$source_name" >> "$log_file"
 done < <(jq -c '.skills[]? | select(.enabled != false)' "$manifest")

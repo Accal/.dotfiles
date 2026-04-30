@@ -51,7 +51,7 @@ private_dot_claude/ ← Claude-specific config and encrypted secrets
 
 - **Color scheme**: Catppuccin Macchiato across all tools (Neovim, Tmux, Alacritty).
 - **Editor**: Neovim — `vim` alias and `GIT_EDITOR` both point to `nvim`.
-- **Claude**: one default profile at `~/.claude`; legacy `.claude-personal` and `.claude-work` are migration backups only.
+- **Claude**: one default profile at `~/.claude`.
 - **Shared agent assets**: `~/.ai` is the canonical shared source; Chezmoi syncs shared skills/prompts/mcp into both `~/.claude` and `~/.codex`.
 - **Cross-platform paths**: Use `$HOMEBREW_PREFIX` (set by `.zprofile`) rather than hardcoding `/opt/homebrew`.
 - **`.config/git/ignore`** is the global gitignore — covers common build artifacts, secrets, and editor files.

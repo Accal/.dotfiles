@@ -14,7 +14,6 @@ setup.sh
 .config/tmux/plugins/**
 .config/crossnote/**
 .config/jellyfin-desktop/**
-graphify-out/**
 
 # Claude runtime state. Only the allowlisted files under private_dot_claude are managed.
 .claude/backups/**
@@ -36,7 +35,7 @@ graphify-out/**
 .claude/tasks/**
 .claude/telemetry/**
 
-# Codex runtime state. Shared assets are synchronized from private_dot_ai.
+# Codex runtime state.
 .codex/cache/**
 .codex/history.jsonl
 .codex/log/**

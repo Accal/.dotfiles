@@ -35,7 +35,6 @@ dot_config/
 dot_local/bin/
   executable_tmux-sessionizer  ← fzf-based tmux session switcher (bound to Ctrl+F / prefix+f)
   executable_tmux-cht.sh       ← cht.sh lookup tool (bound to prefix+i)
-private_dot_ai/     ← shared AI assets (skills/prompts/mcp/external manifest)
 private_dot_claude/ ← Claude-specific config and encrypted secrets
 ```
 
@@ -52,7 +51,9 @@ private_dot_claude/ ← Claude-specific config and encrypted secrets
 - **Color scheme**: Catppuccin Macchiato across all tools (Neovim, Tmux, Alacritty).
 - **Editor**: Neovim — `vim` alias and `GIT_EDITOR` both point to `nvim`.
 - **Claude**: one default profile at `~/.claude`.
-- **Shared agent assets**: `~/.ai` is the canonical shared source; Chezmoi syncs shared skills/prompts/mcp into both `~/.claude` and `~/.codex`.
+- **Agent config scope**: no cross-provider sync for skills/prompts/MCP; keep agent configuration local to each tool.
+- **Superpowers**: managed as an official Claude plugin (`superpowers@claude-plugins-official`) via `private_dot_claude/settings.json`.
+- **Other agent capabilities**: prefer official plugins first; if no plugin equivalent exists, install from upstream source per provider instead of vendoring in this repo.
 - **Cross-platform paths**: Use `$HOMEBREW_PREFIX` (set by `.zprofile`) rather than hardcoding `/opt/homebrew`.
 - **`.config/git/ignore`** is the global gitignore — covers common build artifacts, secrets, and editor files.
 

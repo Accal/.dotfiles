@@ -17,7 +17,6 @@ key.txt
 .config/crossnote/
 .config/jellyfin-desktop/
 .config/tmux/plugins/
-graphify-out/
 
 # Editor
 *.swp

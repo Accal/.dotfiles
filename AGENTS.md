@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This repo is a Chezmoi-managed home directory source for macOS and Linux. The canonical checkout lives at `~/.local/share/chezmoi`. Chezmoi source names use attributes such as `dot_`, `private_`, `executable_`, and `encrypted_`: `dot_zshrc` applies to `~/.zshrc`, `dot_config/nvim/` applies to `~/.config/nvim/`, and `dot_local/bin/executable_tmux-sessionizer` applies as an executable helper script. Shared cross-agent assets live under `private_dot_ai` and Claude-specific settings/secrets live under `private_dot_claude`. Source-root files such as `README.md`, `AGENTS.md`, `Brewfile`, and `LinuxPackages` support the repo and are not applied to `$HOME`.
+This repo is a Chezmoi-managed home directory source for macOS and Linux. The canonical checkout lives at `~/.local/share/chezmoi`. Chezmoi source names use attributes such as `dot_`, `private_`, `executable_`, and `encrypted_`: `dot_zshrc` applies to `~/.zshrc`, `dot_config/nvim/` applies to `~/.config/nvim/`, and `dot_local/bin/executable_tmux-sessionizer` applies as an executable helper script. Claude-specific settings/secrets live under `private_dot_claude`. Source-root files such as `README.md`, `AGENTS.md`, `Brewfile`, and `LinuxPackages` support the repo and are not applied to `$HOME`.
 
 ## Build, Test, and Development Commands
 - `chezmoi diff`: preview changes against the real home directory.

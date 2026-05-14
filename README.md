@@ -58,7 +58,6 @@ dot_config/
 dot_local/bin/
   executable_tmux-sessionizer    fzf-based tmux session switcher
   executable_tmux-cht.sh         cht.sh lookup via fzf
-private_dot_ai/                  shared AI assets for Claude + Codex (~/.ai)
 private_dot_claude/              Claude-specific config and encrypted secrets
 ```
 
@@ -71,8 +70,8 @@ private_dot_claude/              Claude-specific config and encrypted secrets
 - **`.zprofile` vs `.zshrc`**: Login-only config (brew init, PATH, env vars) lives in `.zprofile`. Everything interactive (aliases, keybindings, completions, prompt) lives in `.zshrc`. This prevents double-sourcing and keeps non-interactive shells fast.
 - **Cross-platform Homebrew**: `.zprofile` detects the brew prefix automatically (`/opt/homebrew` on Apple Silicon, `/usr/local` on Intel, `/home/linuxbrew/.linuxbrew` on Linux). Use `$HOMEBREW_PREFIX` in scripts — never hardcode the path.
 - **mise (version manager)**: Replaces asdf. Login shells get `mise activate zsh --shims` (makes shims available in scripts/cron). Interactive shells get `mise activate zsh` (full hook with completions and PATH). Tool versions are declared in `.tool-versions` files per project.
-- **Shared AI assets**: `private_dot_ai/` is the canonical source (`~/.ai`) for cross-agent skills/prompts/MCP templates, synchronized into `~/.claude` and `~/.codex` on `chezmoi apply`.
 - **Claude**: One default Claude CLI profile lives at `~/.claude`.
+- **AI tooling**: keep provider-specific config local to each agent (no shared cross-provider skill/prompt sync).
 
 ### Aliases
 
@@ -108,25 +107,12 @@ mise exec python@3.11 -- python script.py
 
 ---
 
-## Shared AI Assets (Claude + Codex)
+## AI Agent Setup
 
-- Canonical source: `private_dot_ai/` → `~/.ai`
-- `run_onchange_after_30-sync-ai-assets.sh.tmpl` synchronizes shared assets:
-  - `~/.ai/skills` → `~/.claude/skills` and `~/.codex/skills`
-  - `~/.ai/prompts` → `~/.claude/prompts` and `~/.codex/prompts`
-  - `~/.ai/mcp` → `~/.claude/mcp` and `~/.codex/mcp`
-  - `~/.ai/agents/<agent>/` overlays into each agent home directory
-- `run_onchange_after_35-install-agent-skills.sh.tmpl` installs enabled third-party entries from `~/.ai/external-skills.json` using copy mode:
-  - `npx skills add <source> -g --copy -y -a claude-code -a codex`
-- Prerequisite for third-party installs: `npx` available on PATH (for example `mise install node@22`)
-
-### Add a shared first-party skill
-
-Create `private_dot_ai/skills/<name>/SKILL.md`, then run `chezmoi apply`.
-
-### Add a third-party skill pin
-
-Add an entry to `private_dot_ai/external-skills.json`, set `"enabled": true`, then run `chezmoi apply`.
+- This repo no longer syncs skills/prompts/MCP templates between Claude and Codex.
+- Prefer official plugins from each provider marketplace instead of vendored personal skills.
+- If an equivalent official plugin does not exist, install the skill from its upstream official source per provider (not from this repo).
+- `private_dot_claude/settings.json` is the only AI-agent config managed here, and `superpowers@claude-plugins-official` is enabled there.
 
 ---
 
@@ -413,8 +399,7 @@ mise self-update
 | New LSP server | `:Mason` to install, add to `ensure_installed` in `lsp.lua` |
 | New formatter | `:MasonInstall <tool>`, add to `formatters_by_ft` in `formatting.lua` |
 | New shell alias | Add to `.zshrc` aliases section |
-| New shared first-party skill | Add under `private_dot_ai/skills/<name>/`, run `chezmoi apply` |
-| New shared third-party skill | Add manifest entry in `private_dot_ai/external-skills.json`, run `chezmoi apply` |
+| New Claude plugin | Enable it in `private_dot_claude/settings.json` (prefer official `@claude-plugins-official` sources) |
 
 ---
 
@@ -433,5 +418,3 @@ chezmoi apply --dry-run --verbose
 **mise shims not found in scripts** — ensure `.zprofile` is sourced (login shell). Check with `mise doctor`.
 
 **Powerlevel10k not configured** — run `p10k configure` to generate `~/.p10k.zsh`.
-
-**Shared third-party skills did not install** — ensure `npx` is available (`node` installed), then rerun `chezmoi apply`.
